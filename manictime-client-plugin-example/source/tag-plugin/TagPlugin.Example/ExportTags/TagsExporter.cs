@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Finkit.ManicTime.Client.Main.Logic;
-using Finkit.ManicTime.Common;
-using Finkit.ManicTime.Plugins.Timelines.Tags;
-using Finkit.ManicTime.Shared.Tags.Labels;
-using TimeTrackingService;
-using TimeTrackingService.Internal;
 
 namespace TagPlugin.ExportTags
 {

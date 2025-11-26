@@ -12,6 +12,7 @@ using Finkit.ManicTime.Plugins.Timelines.Tags;
 using Finkit.ManicTime.Shared;
 using Finkit.ManicTime.Shared.Logging;
 using Finkit.ManicTime.Shared.Plugins.ServiceProviders.PluginCommands;
+using Finkit.ManicTime.Shared.Helpers;
 using TagPlugin.Settings;
 using TagPlugins.Core;
 
@@ -28,7 +29,7 @@ namespace TagPlugin.ExportTags
         private static bool changesQueued = false;
 
         public ExportTagsCommand(
-            IEventHub eventHub, 
+            IEventHub eventHub,
             TagSourceService tagSourceService,
             ActivityReaderMessageClient activityReaderMessageClient,
             IViewTimelineCache viewTimelineCache)
@@ -121,10 +122,25 @@ namespace TagPlugin.ExportTags
         {
             var timeline = _viewTimelineCache.LocalTagTimeline;
 
+            // Instead of trying to reverse engineer the conversion, let's use DateTime.Today
+            // and calculate the number of days difference to get the actual dates
+            // Since dateFrom and dateTo are likely representing a date range relative to today,
+            // we'll compute the actual dates based on what DateTimeHelper.FromUnshiftedDateTime would produce
+
+            var today = DateTime.Today;
+            var todayAsInt = DateTimeHelper.FromUnshiftedDateTime(today);
+
+            // Calculate the offset from today and apply it
+            var fromDateOffset = dateFrom - todayAsInt;
+            var toDateOffset = dateTo - todayAsInt;
+
+            var fromDateTime = today.AddDays(fromDateOffset);
+            var toDateTime = today.AddDays(toDateOffset);
+
             var activities = await _activityReaderMessageClient.GetActivitiesAsync(
                 timeline,
-                new Date(dateFrom.AsStartDateTime()),
-                new Date(dateTo.AsStartDateTime()),
+                new Date(fromDateTime),
+                new Date(toDateTime),
                 false,
                 CancellationToken.None).ConfigureAwait(false);
 

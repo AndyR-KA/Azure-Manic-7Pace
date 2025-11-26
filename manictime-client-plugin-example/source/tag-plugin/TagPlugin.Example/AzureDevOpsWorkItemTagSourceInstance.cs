@@ -15,7 +15,7 @@ namespace TagPlugin
                 var config = CreateConfigFrom(azureDevOpsWorkItemTagSettings);
 
                 _tagsImporter = new TagsImporter(config);
-            }            
+            }
         }
 
         public override void UpdateSettings(ITagSourceSettings settings)
@@ -41,10 +41,11 @@ namespace TagPlugin
                 return;
             }
 
-            TagSourceItem[] tags = _tagsImporter
+            var tagsResult = _tagsImporter
                 .GetTagsAsync()
-                .Result
-                .ToArray();
+                .Result;
+
+            TagSourceItem[] tags = tagsResult?.ToArray() ?? new TagSourceItem[0];
 
             TagSourceCache.Update(InstanceId, tags, null, false);
         }
