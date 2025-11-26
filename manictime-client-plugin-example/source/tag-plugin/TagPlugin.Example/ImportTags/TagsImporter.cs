@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Finkit.ManicTime.Common.TagSources;
-using Finkit.ManicTime.Shared.Tags.Labels;
 using TimeTrackingService;
 using TimeTrackingService.Internal;
 using WorkItemServices;
