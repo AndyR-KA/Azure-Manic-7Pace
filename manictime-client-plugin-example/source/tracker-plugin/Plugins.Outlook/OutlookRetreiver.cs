@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -28,7 +29,12 @@ namespace Plugins.Outlook
 
             try
             {
-                oApp = Marshal.GetActiveObject("Outlook.Application");
+                // Try to get the active Outlook application
+                Type outlookType = Type.GetTypeFromProgID("Outlook.Application");
+                if (outlookType != null)
+                {
+                    oApp = System.Activator.CreateInstance(outlookType);
+                }
                 activeWindow = oApp.GetType().InvokeMember("ActiveWindow", BindingFlags.GetField | BindingFlags.InvokeMethod | BindingFlags.GetProperty, null, oApp, null);
 
                 if (activeWindow != null)
