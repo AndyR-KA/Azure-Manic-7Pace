@@ -16,18 +16,6 @@ copy "$(ProjectDir)PluginIcon.png" "$(TargetDir)..\PluginIcon.png"</PostBuildEve
     <OutputPath>..\..\..\installable-plugin\$(Configuration)\Plugins\Packages\MFitzpatrick.TagSource.Azure7PacePlugin\Lib\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Finkit.ManicTime.Client">
-      <HintPath>..\..\..\libs\Finkit.ManicTime.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="Finkit.ManicTime.Common">
-      <HintPath>..\..\..\libs\Finkit.ManicTime.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Finkit.ManicTime.Shared">
-      <HintPath>..\..\..\libs\Finkit.ManicTime.Shared.dll</HintPath>
-    </Reference>
-    <Reference Include="TagPlugins.Core">
-      <HintPath>..\..\..\libs\TagPlugins.Core.dll</HintPath>
-    </Reference>
     <PackageReference Include="Flurl" Version="2.8.0" />
   </ItemGroup>
   <ItemGroup>
