@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Flurl;
 using HttpExtensions;
@@ -24,7 +25,7 @@ namespace WorkItemServices
         {
             Url url = _baseUrl
                 .AppendPathSegments(_organization, "_apis/wit/wiql")
-                .SetQueryParam("api-version", "5.0");
+                .SetQueryParam("api-version", "7.1");
 
             string query = queryTemplate.Replace("@UniqueName", uniqueName);
 
@@ -53,7 +54,7 @@ namespace WorkItemServices
                 .PostJsonAsync(WorkItemsRequest.ConstructFrom(workItemReferences))
                 .ReceiveJson<WorkItemsResponse>();
 
-            return response.Value;
+            return response?.Value ?? Enumerable.Empty<WorkItem>();
         }
     }
 }

@@ -33,9 +33,9 @@ namespace TagPlugin.ImportTags
         {
             Me me = await _timeTrackingClient.GetMe();
 
-            IEnumerable<TagSourceItem> billableTags = await GetBillableTagsAsync(me);
+            IEnumerable<TagSourceItem> billableTags = await GetBillableTagsAsync(me) ?? Enumerable.Empty<TagSourceItem>();
 
-            IEnumerable<TagSourceItem> nonBillableTags = await GetNonBillableTagsAsync(me);
+            IEnumerable<TagSourceItem> nonBillableTags = await GetNonBillableTagsAsync(me) ?? Enumerable.Empty<TagSourceItem>();
 
             return billableTags
                 .Concat(nonBillableTags)
@@ -46,22 +46,27 @@ namespace TagPlugin.ImportTags
         {
             IEnumerable<WorkItem> billableWorkItems = await GetWorkItems(me, _billableQueryTemplate);
 
-            return billableWorkItems
-                .Select(AsTagSourceItem(billable: true));
+            return billableWorkItems?
+                .Select(AsTagSourceItem(billable: true)) ?? Enumerable.Empty<TagSourceItem>();
         }
 
         private async Task<IEnumerable<TagSourceItem>> GetNonBillableTagsAsync(Me me)
         {
             IEnumerable<WorkItem> nonBillableWorkItems = await GetWorkItems(me, _nonBillableQueryTemplate);
 
-            return nonBillableWorkItems
-                .Select(AsTagSourceItem(billable: false));
+            return nonBillableWorkItems?
+                .Select(AsTagSourceItem(billable: false)) ?? Enumerable.Empty<TagSourceItem>();
         }
 
         private async Task<IEnumerable<WorkItem>> GetWorkItems(Me me, string queryTemplate)
         {
             WiqlResponse workItemRefsResponse = await _workItemClient
                 .GetAssignedWorkItemReferences(me.User.UniqueName, queryTemplate);
+
+            if (workItemRefsResponse?.WorkItems == null)
+            {
+                return Enumerable.Empty<WorkItem>();
+            }
 
             return await _workItemClient
                 .GetWorkItemsByReference(workItemRefsResponse.WorkItems);

@@ -20,7 +20,7 @@ namespace WorkItemServices.Internal
 
         public static WorkItemsRequest ConstructFrom(IEnumerable<WorkItemReference> workItemReferences)
         {
-            IEnumerable<int> ids = workItemReferences.Select(item => item.Id);
+            IEnumerable<int> ids = workItemReferences?.Select(item => item.Id) ?? Enumerable.Empty<int>();
 
             return new WorkItemsRequest("all", ids);
         }
