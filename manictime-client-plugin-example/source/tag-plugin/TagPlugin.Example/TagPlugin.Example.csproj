@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net451</TargetFramework>
     <OutputType>Library</OutputType>
@@ -29,9 +29,6 @@ copy "$(ProjectDir)PluginIcon.png" "$(TargetDir)..\PluginIcon.png"</PostBuildEve
       <HintPath>..\..\..\libs\TagPlugins.Core.dll</HintPath>
     </Reference>
     <PackageReference Include="Flurl" Version="2.8.0" />
-    <PackageReference Include="HttpExtensions" Version="1.0.0" />
-    <PackageReference Include="TimeTrackingService" Version="0.1.0" />
-    <PackageReference Include="WorkItemService" Version="0.1.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="PluginIcon.png" />
